@@ -16,8 +16,13 @@ module.exports.createArticle = (req, res, next) => {
   const owner = req.user._id;
   const { keyword, title, text, date, source, link, image } = req.body;
 
-  Article.create({ keyword, title, text, date, source, link, image })
-    .then((article) => res.send({ data: article }))
+  Article.create({ keyword, title, text, date, source, link, image, owner })
+    .then((article) =>
+      res.send(
+        console.log(article)
+        // { data: article }
+      )
+    )
     .catch((err) => {
       console.log(err);
       if (err.name === "ValidationError") {

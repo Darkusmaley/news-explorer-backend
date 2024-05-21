@@ -9,14 +9,13 @@ const NotFoundError = require("../utils/errors/NotFoundError");
 const UnauthorizedError = require("../utils/errors/UnauthorizedError");
 
 module.exports.createUser = (req, res, next) => {
-  const { name, avatar, email, password } = req.body;
+  const { name, email, password } = req.body;
 
   bcrypt.hash(password, 10).then((hash) => {
-    User.create({ name, avatar, email, password: hash })
+    User.create({ name, email, password: hash })
       .then((user) => {
         res.send({
           name: user.name,
-          avatar: user.avatar,
           email: user.email,
         });
         if (!email) {
@@ -62,7 +61,7 @@ module.exports.updateUser = (req, res, next) => {
   const { name, avatar } = req.body;
   User.findOneAndUpdate(
     { _id: req.user._id },
-    { name, avatar },
+    { name },
     { new: true, runValidators: true }
   )
     .then((user) => {
