@@ -17,12 +17,7 @@ module.exports.createArticle = (req, res, next) => {
   const { keyword, title, text, date, source, link, image } = req.body;
 
   Article.create({ keyword, title, text, date, source, link, image, owner })
-    .then((article) =>
-      res.send(
-        // console.log(article)
-        // { data: article }
-      )
-    )
+    .then((article) => res.send({ data: article }))
     .catch((err) => {
       console.log(err);
       if (err.name === "ValidationError") {
@@ -39,10 +34,10 @@ module.exports.deleteArticle = (req, res, next) => {
   Article.findById(articleId)
     .orFail()
     .then((article) => {
-      if (!article.owner.equals(userId)) {
+      if (userId !== article.owner.toString()) {
         return next(new ForbiddenError("Forbidden request"));
       }
-      return Article.findByIdAndRemove(req.params.articleId).then((user) => {
+      return Article.findByIdAndRemove(articleId).then((user) => {
         res.send(user);
       });
     })

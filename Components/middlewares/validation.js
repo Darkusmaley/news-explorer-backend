@@ -10,28 +10,28 @@ const validateURL = (value, helpers) => {
 
 module.exports.validateItemCreation = celebrate({
   body: Joi.object().keys({
-    title: Joi.string().required().min(2).max(30).messages({
+    title: Joi.string().required().messages({
       "string.empty": 'The "title" field must be filled in',
       "string.min": 'The minimum length of the "name" field is 2',
       "string.max": 'The maximum length of the "name" field is 30',
     }),
-    text: Joi.string().required().min(2).max(30).messages({
+    text: Joi.string().required().messages({
       "string.empty": 'The "text" field must be filled in',
     }),
-    keyword: Joi.string().required().min(2).max(30).messages({
+    keyword: Joi.string().required().messages({
       "string.empty": 'The "keyword" field must be filled in',
     }),
-    date: Joi.string().required().min(2).max(30).messages({
+    date: Joi.string().required().messages({
       "string.empty": 'The "date" field must be filled in',
     }),
-    source: Joi.string().required().min(2).max(30).messages({
+    source: Joi.string().required().messages({
       "string.empty": 'The "source" field must be filled in',
     }),
-    link: Joi.string().required().min(2).max(30).custom(validateURL).messages({
+    link: Joi.string().required().custom(validateURL).messages({
       "string.empty": 'The "link" field must be filled in',
       "string.url": ' The "link" field must be filled in',
     }),
-    image: Joi.string().required().min(2).max(30).custom(validateURL).messages({
+    image: Joi.string().required().custom(validateURL).messages({
       "string.empty": 'The "image" field must be filled in',
       "string.url": ' The "image" field must be filled in',
     }),
