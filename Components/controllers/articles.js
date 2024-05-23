@@ -19,7 +19,7 @@ module.exports.createArticle = (req, res, next) => {
   Article.create({ keyword, title, text, date, source, link, image, owner })
     .then((article) =>
       res.send(
-        console.log(article)
+        // console.log(article)
         // { data: article }
       )
     )

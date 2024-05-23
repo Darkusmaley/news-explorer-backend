@@ -42,7 +42,6 @@ module.exports.getCurrentUser = (req, res, next) => {
   User.findById(userId)
     .orFail()
     .then((user) => {
-      console.log(user);
       res.send({ user });
     })
     .catch((err) => {
@@ -58,7 +57,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.updateUser = (req, res, next) => {
-  const { name, avatar } = req.body;
+  const { name } = req.body;
   User.findOneAndUpdate(
     { _id: req.user._id },
     { name },
