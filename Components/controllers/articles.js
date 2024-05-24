@@ -28,8 +28,7 @@ module.exports.createArticle = (req, res, next) => {
 };
 
 module.exports.deleteArticle = (req, res, next) => {
-  // const {articleId} = req.params I originally had it like this and I was getting a 500 error, then I changed it and began getting a 400 error. How can I console.log this to see what articleId is?
-  const articleId = req.params;
+  const { articleId } = req.params;
   const userId = req.user._id;
 
   Article.findById(articleId)
@@ -38,7 +37,7 @@ module.exports.deleteArticle = (req, res, next) => {
       if (!article.owner.equals(userId)) {
         return next(new ForbiddenError("Forbidden request"));
       }
-      return Article.findByIdAndRemove(articleId).then((user) => {
+      return Article.findByIdAndRemove({ articleId }).then((user) => {
         res.send(user);
       });
     })
