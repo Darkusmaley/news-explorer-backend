@@ -37,7 +37,7 @@ module.exports.deleteArticle = (req, res, next) => {
       if (!article.owner.equals(userId)) {
         return next(new ForbiddenError("Forbidden request"));
       }
-      return Article.findByIdAndRemove({ articleId }).then((user) => {
+      return Article.findByIdAndDelete(articleId).then((user) => {
         res.send(user);
       });
     })
