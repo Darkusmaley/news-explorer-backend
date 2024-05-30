@@ -26,5 +26,5 @@
 - Postman
 - Links
 
-- The project can be seen live using the this []
-- The project's backend can be found by using this []
+- The project can be seen live using the this [https://marcusnewsexplorer.jumpingcrab.com/]
+- The project's backend can be found by using this [https://github.com/Darkusmaley/news-explorer-backend]
