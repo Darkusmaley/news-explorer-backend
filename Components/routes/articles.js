@@ -10,7 +10,7 @@ const {
   validateUserID,
 } = require("../middlewares/validation");
 
-router.get("/", getArticle);
+router.get("/", auth, getArticle);
 router.post("/", auth, validateItemCreation, createArticle);
 router.delete("/:articleId", auth, validateUserID, deleteArticle);
 

@@ -77,16 +77,10 @@ module.exports.validateUserLogin = celebrate({
 });
 
 module.exports.validateUserID = celebrate({
-  body: Joi.object().keys({
-    id: Joi.string().hex().length(24).messages({
+  params: Joi.object().keys({
+    articleId: Joi.string().hex().length(24).messages({
       "string-hex": "ID must be hexadecimal string",
       "string-lenght": "ID must be 24 characters in length",
     }),
-  }),
-});
-
-module.exports.validateUpdateCurrentUser = celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
   }),
 });
