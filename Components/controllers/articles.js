@@ -2,6 +2,12 @@ const Article = require("../models/article");
 const ForbiddenError = require("../utils/errors/ForbiddenError");
 const BadRequestError = require("../utils/errors/BadRequestError");
 const NotFoundError = require("../utils/errors/NotFoundError");
+const {
+  ARTICLE_NOT_FOUND,
+  INVALID_OWNER,
+  BAD_REQUEST,
+  INVALID_CREDENTIALS,
+} = require("../utils/constants");
 
 module.exports.getArticle = (req, res, next) => {
   Article.find({ owner: req.user._id })
@@ -21,7 +27,7 @@ module.exports.createArticle = (req, res, next) => {
     .catch((err) => {
       console.log(err);
       if (err.name === "ValidationError") {
-        return next(new BadRequestError("Bad request"));
+        return next(new BadRequestError(BAD_REQUEST));
       }
       return next(err);
     });
@@ -35,7 +41,7 @@ module.exports.deleteArticle = (req, res, next) => {
     .orFail()
     .then((article) => {
       if (!article.owner.equals(userId)) {
-        return next(new ForbiddenError("Forbidden request"));
+        return next(new ForbiddenError(INVALID_CREDENTIALS));
       }
       return Article.findByIdAndDelete(articleId).then((user) => {
         res.send(user);
@@ -44,13 +50,13 @@ module.exports.deleteArticle = (req, res, next) => {
     .catch((err) => {
       console.log(err);
       if (err.name === "DocumentNotFoundError") {
-        return next(new NotFoundError("Cannot find article with that Id"));
+        return next(new NotFoundError(ARTICLE_NOT_FOUND));
       }
       if (err.name === "CastError") {
-        return next(new BadRequestError("Bad request"));
+        return next(new BadRequestError(BAD_REQUEST));
       }
       if (err.name === "Incorrect article owner") {
-        return next(new ForbiddenError("Forbidden request"));
+        return next(new ForbiddenError(INVALID_OWNER));
       }
       return next(err);
     });

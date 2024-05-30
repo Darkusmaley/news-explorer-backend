@@ -7,6 +7,7 @@ const ConflictError = require("../utils/errors/ConflictError");
 const BadRequestError = require("../utils/errors/BadRequestError");
 const NotFoundError = require("../utils/errors/NotFoundError");
 const UnauthorizedError = require("../utils/errors/UnauthorizedError");
+const { EMAIL_IN_USE, BAD_REQUEST } = require("../utils/constants");
 
 module.exports.createUser = (req, res, next) => {
   const { name, email, password } = req.body;
@@ -26,11 +27,11 @@ module.exports.createUser = (req, res, next) => {
         console.log(err);
 
         if (err.code === 11000) {
-          return next(new ConflictError("Duplicate user"));
+          return next(new ConflictError(EMAIL_IN_USE));
         }
 
         if (err.name === "ValidationError") {
-          return next(new BadRequestError("Bad request"));
+          return next(new BadRequestError(BAD_REQUEST));
         }
         return next(err);
       });
@@ -61,7 +62,7 @@ module.exports.updateUser = (req, res, next) => {
   User.findOneAndUpdate(
     { _id: req.user._id },
     { name },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((user) => {
       res.send(user);

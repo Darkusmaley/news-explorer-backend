@@ -8,11 +8,16 @@ const {
   requestLogger,
   errorLogger,
 } = require("./Components/middlewares/logger");
+const helmet = require("helmet");
 
 const app = express();
 const { PORT = 3001 } = process.env;
 const mainRouter = require("./Components/routes/index");
+const { limiter } = require("./Components/utils/limiter");
+const { MONGO_DB_CONNECTION } = require("./Components/utils/config");
 
+app.use(helmet());
+app.use(limiter);
 app.use(requestLogger);
 app.use(cors());
 app.use(express.json());
@@ -27,7 +32,7 @@ app.use(errors());
 app.use(errorHandler);
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/news-explorer_db")
+  .connect(MONGO_DB_CONNECTION)
   .then(() => {
     console.log("Connected to News-Explorer_DB");
   })
