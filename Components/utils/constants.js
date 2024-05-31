@@ -1,5 +1,3 @@
-const UnauthorizedError = require("./errors/UnauthorizedError");
-
 const VALID_EMAIL = "Enter a valid email";
 const ARTICLE_NOT_FOUND = "Article is not found";
 const INVALID_OWNER = "Invalid owner";
