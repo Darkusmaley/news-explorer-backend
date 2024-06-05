@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../utils/config");
+const { JWT_SECRET, generateToken } = require("../utils/config");
 const User = require("../models/user");
 
 const ConflictError = require("../utils/errors/ConflictError");
@@ -70,7 +70,7 @@ module.exports.updateUser = (req, res, next) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return next(new BadRequestError("Unable to valudate user"));
+        return next(new BadRequestError("Unable to validate user"));
       }
       return next(err);
     });
@@ -81,9 +81,7 @@ module.exports.login = (req, res, next) => {
 
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
-        expiresIn: "7d",
-      });
+      const token = generateToken(user);
       res.send({ token });
     })
     .catch((err) => {

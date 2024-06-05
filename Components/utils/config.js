@@ -7,7 +7,7 @@ const { MONGO_DB_CONNECTION = "mongodb://127.0.0.1:27017/news-explorer_db" } =
 const generateToken = (user) => {
   const token = jwt.sign(
     { _id: user._id },
-    NODE_ENV === "production" ? JWT_SECRET : "Secret_Key_Here",
+    NODE_ENV !== "production" ? JWT_SECRET : "Secret_Key_Here",
     { expiresIn: "7d" },
   );
 
